@@ -53,6 +53,7 @@ public class Asset {
     }
 
     public Quote getLastQuote() {
+
         //TODO
         return null;
     }
@@ -60,7 +61,6 @@ public class Asset {
     @Override
     public String toString() {
         return name + " (" +symbol+") "+getLastQuote();
-
     }
 
     public void addQuote(Quote quote) {
