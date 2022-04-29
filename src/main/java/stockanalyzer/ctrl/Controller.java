@@ -8,21 +8,32 @@ import java.util.List;
 
 public class Controller {
 
-    public void process ( String ticker ) throws NullPointerException {
+    public void process( String ticker ) throws NullPointerException {
 
         System.out.println ( "Start process" );
 
         try {
             QuoteResponse response = (QuoteResponse) getData ( ticker );
 
-            response.getResult ( ).forEach ( quote -> System.out.println ( System.lineSeparator ( ) + "Current BID:" + System.lineSeparator ( ) + quote.getAsk ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( ) + System.lineSeparator ( ) + "Highest Price last 52 Weeks" + System.lineSeparator ( ) + quote.getFiftyTwoWeekHigh ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( ) + System.lineSeparator ( ) + "Average Price last 52 Weeks" + System.lineSeparator ( ) + quote.getFiftyDayAverage ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( ) ) );
+            response.getResult ( ).forEach (
+                    quote -> System.out.println (
+                            System.lineSeparator ( )
+                                    + "Current BID:"
+                                    + System.lineSeparator ( )
+                                    + quote.getAsk ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
+                                    + System.lineSeparator ( )
+                                    + "Highest Price last 52 Weeks" + System.lineSeparator ( )
+                                    + quote.getFiftyTwoWeekHigh ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
+                                    + System.lineSeparator ( )
+                                    + "Average Price last 52 Weeks" + System.lineSeparator ( )
+                                    + quote.getFiftyDayAverage ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )));
 
         } catch ( NullPointerException | ExceptionController e ) {
             System.out.println ( e.getMessage ( ) );
         }
     }
 
-    public Object getData ( String searchString ) throws ExceptionController {
+    public Object getData( String searchString ) throws ExceptionController {
 
         List<String> searchStrings = List.of ( searchString );
         try {
@@ -34,7 +45,7 @@ public class Controller {
         return null;
     }
 
-    public void closeConnection ( ) {
+    public void closeConnection( ) {
 
     }
 }
