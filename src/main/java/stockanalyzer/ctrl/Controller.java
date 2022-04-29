@@ -14,6 +14,7 @@ public class Controller {
 
         try {
             QuoteResponse response = (QuoteResponse) getData ( ticker );
+            long count = response.getResult ( ).size ( );
 
             response.getResult ( ).forEach (
                     quote -> System.out.println (
@@ -26,7 +27,11 @@ public class Controller {
                                     + quote.getFiftyTwoWeekHigh ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
                                     + System.lineSeparator ( )
                                     + "Average Price last 52 Weeks" + System.lineSeparator ( )
-                                    + quote.getFiftyDayAverage ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )));
+                                    + quote.getFiftyDayAverage ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
+                                    + System.lineSeparator ( )
+                                    + "Number of counted Data" + System.lineSeparator ( )
+                                    + count));
+
 
         } catch ( NullPointerException | ExceptionController e ) {
             System.out.println ( e.getMessage ( ) );
@@ -40,7 +45,9 @@ public class Controller {
             YahooResponse response = YahooFinance.getCurrentData ( searchStrings );
             return response.getQuoteResponse ( );
         } catch ( NullPointerException | ExceptionController e ) {
-            System.out.println ( "We are sorry this happened. " + YahooFinance.URL_YAHOO + "is not responding." );
+            System.out.println ( "We are sorry this happened. "
+                    + YahooFinance.URL_YAHOO
+                    + "is not responding." );
         }
         return null;
     }

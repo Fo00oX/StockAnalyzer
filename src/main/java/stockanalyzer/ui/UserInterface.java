@@ -3,6 +3,7 @@ package stockanalyzer.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 import stockanalyzer.ctrl.Controller;
 
@@ -32,7 +33,6 @@ public class UserInterface {
     public void getDataForCustomInput ( ) {
 
     }
-
 
     public void start ( ) {
         Menu<Runnable> menu = new Menu<> ( "User Interface" );
