@@ -11,7 +11,8 @@ public class MCP {
 			ui.start();
 
 		}catch ( Exception e ) {
-			UserInterface.print ( "An Error acquired");
 		}
+		UserInterface ui = new UserInterface();
+		ui.start();
 	}
 }

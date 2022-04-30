@@ -44,7 +44,7 @@ public class YahooFinance {
             in.close();
         } catch ( IOException e) {
             //UserInterface.printError ( new YahooException (e.getMessage ()) );
-            UserInterface.print ( URL_YAHOO + "Is not reachable.");
+            UserInterface.print (("in not reachable"));
         }
         return response.toString();
     }
@@ -84,9 +84,7 @@ public class YahooFinance {
         try {
             result  = objectMapper.readValue(jsonResponse, YahooResponse.class);
         } catch (JsonProcessingException e) {
-            UserInterface.print ( URL_YAHOO + "Is not reachable.");
         }
         return result;
     }
-
 }
