@@ -13,12 +13,12 @@ public class YahooAPIExample {
 
         YahooFinance yahooFinance = new YahooFinance();
         List<String> tickers = Arrays.asList("AMZN", "TSLA", "GOOG");
-        YahooResponse response = yahooFinance.getCurrentData(tickers);
+        YahooResponse response = (YahooResponse) yahooFinance.getCurrentData(tickers);
         QuoteResponse quotes = response.getQuoteResponse();
         quotes.getResult().forEach( quote -> System.out.println(quote.getAsk()));
 
         System.out.println("***ATX***");
-        YahooResponse response2 = yahooFinance.getCurrentData(Arrays.asList("OMV.VI",
+        YahooResponse response2 = (YahooResponse) yahooFinance.getCurrentData(Arrays.asList("OMV.VI",
                 "EBS.VI","DOC.VI","SBO.VI","RBI.VI","VIG.VI","TKA.VI","VOE.VI","FACC.VI","ANDR.VI","VER.VI",
                 "WIE.VI","CAI.VI","BG.VI","POST.VI","LNZ.VI","UQA.VI","SPI.VI","ATS.VI","IIA.VI"));
         QuoteResponse quotes2 = response2.getQuoteResponse();

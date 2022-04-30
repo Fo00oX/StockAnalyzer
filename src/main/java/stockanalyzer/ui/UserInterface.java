@@ -8,48 +8,47 @@ import stockanalyzer.ctrl.Controller;
 
 public class UserInterface {
 
-    public static void print( String e ) {
-        System.out.println( e);
-    }
-
     private Controller ctrl = new Controller();
 
-    public void getDataFromCtrl1() {
-            ctrl.process ( "AAPL,TSLA,GOOG" );
+    public void getDataFromCtrl1()   {
+        ctrl.process ( "AAPL,TSLA,GOOG" );
     }
 
     public void getDataFromCtrl2() {
-        ctrl.process("TSLA");
+        ctrl.process ( "TSLA" );
     }
 
     public void getDataFromCtrl3() {
-        ctrl.process("GOOG");
+
+        ctrl.process ( "GOOG" );
+
     }
 
+    public void start()   {
 
-    public void start() {
-        Menu<Runnable> menu = new Menu<>("User Interface");
-        menu.setTitel("Wählen Sie aus:");
-        menu.insert("a", "AAPL,TSLA,GOOG", this::getDataFromCtrl1);
-        menu.insert("b", "BABA", this::getDataFromCtrl2);
-        menu.insert("c", "GOOG", this::getDataFromCtrl3);
-        menu.insert("q", "Quit", null);
+        Menu<Runnable> menu = new Menu<> ( "User Interface" );
+        menu.setTitel ( "Wählen Sie aus:" );
+        menu.insert ( "a" , "AAPL,TSLA,GOOG" , this::getDataFromCtrl1 );
+        menu.insert ( "b" , "BABA" , this::getDataFromCtrl2 );
+        menu.insert ( "c" , "GOOG" , this::getDataFromCtrl3 );
+        menu.insert ( "q" , "Quit" , null );
         Runnable choice;
-        while ((choice = menu.exec()) != null) {
+        while ((choice = menu.exec()) != null)
             choice.run();
-        }
+
+
         ctrl.closeConnection();
         System.out.println("Program finished");
     }
 
 
-    protected String readLine()
-    {
+    protected String readLine()   {
         String value = "\0";
         BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
         try {
             value = inReader.readLine();
-        } catch (IOException ignored ) {
+        } catch ( IOException e ) {
+            System.out.println ("asd" );
         }
         return value.trim();
     }

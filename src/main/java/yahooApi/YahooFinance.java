@@ -2,12 +2,12 @@ package yahooApi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import stockanalyzer.ctrl.YahooException;
-import stockanalyzer.ui.UserInterface;
+
 import yahooApi.beans.Asset;
 import yahooApi.beans.YahooResponse;
 
 import javax.json.*;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -20,7 +20,7 @@ public class YahooFinance {
 
     public static final String URL_YAHOO = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%s";
 
-    public static String requestData ( List<String> tickers )  {
+    public String requestData(List<String> tickers) {
         //TODO improve Error Handling
         String symbols = String.join(",", tickers);
         String query = String.format(URL_YAHOO, symbols);
@@ -28,13 +28,12 @@ public class YahooFinance {
         URL obj = null;
         try {
             obj = new URL(query);
-        } catch ( MalformedURLException e) {
-            UserInterface.print ( URL_YAHOO + "Is not reachable.");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
         try {
-            assert obj != null;
             con = (HttpURLConnection) obj.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -42,9 +41,8 @@ public class YahooFinance {
                 response.append(inputLine);
             }
             in.close();
-        } catch ( IOException e) {
-            //UserInterface.printError ( new YahooException (e.getMessage ()) );
-            UserInterface.print (("in not reachable"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return response.toString();
     }
@@ -57,12 +55,12 @@ public class YahooFinance {
         return jo;
     }
 
-    public void fetchAssetName(Asset asset)   {
+    public void fetchAssetName(Asset asset) {
         YahooFinance yahoo = new YahooFinance();
         List<String> symbols = new ArrayList<>();
         symbols.add(asset.getSymbol());
         String jsonResponse = null;
-        jsonResponse = requestData(symbols);
+        jsonResponse = yahoo.requestData(symbols);
         JsonObject jo = yahoo.convert(jsonResponse);
         asset.setName(extractName(jo));
     }
@@ -77,13 +75,14 @@ public class YahooFinance {
         return returnName;
     }
 
-    public static YahooResponse getCurrentData ( List<String> tickers )  {
+    public YahooResponse getCurrentData(List<String> tickers) {
         String jsonResponse = requestData(tickers);
         ObjectMapper objectMapper = new ObjectMapper();
         YahooResponse result = null;
         try {
-            result  = objectMapper.readValue(jsonResponse, YahooResponse.class);
+            result = objectMapper.readValue(jsonResponse, YahooResponse.class);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
         return result;
     }

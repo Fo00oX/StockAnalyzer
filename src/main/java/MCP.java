@@ -3,16 +3,8 @@ import stockanalyzer.ui.UserInterface;
 
 public class MCP {
 
-	public static void main(String args[])
-	{
-		try {
-
+	public static void main(String args[]) throws YahooException {
 			UserInterface ui = new UserInterface();
 			ui.start();
 
-		}catch ( Exception e ) {
-		}
-		UserInterface ui = new UserInterface();
-		ui.start();
-	}
-}
+}}

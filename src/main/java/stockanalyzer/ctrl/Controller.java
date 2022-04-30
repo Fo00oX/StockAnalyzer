@@ -4,13 +4,12 @@ import stockanalyzer.ui.UserInterface;
 import yahooApi.YahooFinance;
 import yahooApi.beans.QuoteResponse;
 import yahooApi.beans.Result;
-import yahooApi.beans.YahooResponse;
 
 import java.util.*;
 
 public class Controller {
 
-    public void process ( String ticker ) {
+    public void process ( String ticker )   {
         System.out.println ( "Start process" );
 
         try {
@@ -29,18 +28,18 @@ public class Controller {
                     + quoteResponse.getResult ( )
                     .stream ( ).mapToDouble ( Result::getAsk ).count ( ) );
         } catch ( YahooException e ) {
-            UserInterface.print ( "An Error acquired");
+            System.out.println(e);
         }
+        new UserInterface ( );
     }
 
     public Object getData ( String searchString ) {
 
-            List<String> tickers = Arrays.asList ( searchString.split ( "," ) );
+        List<String> tickers = Arrays.asList(searchString.split(","));
 
-            YahooResponse response = YahooFinance.getCurrentData ( tickers );
+        YahooFinance yahooFinance = new YahooFinance();
 
-            return response.getQuoteResponse ( );
-
+        return yahooFinance.getCurrentData(tickers).getQuoteResponse();
     }
 
     public void closeConnection ( ) {
