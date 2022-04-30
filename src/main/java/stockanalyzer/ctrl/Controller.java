@@ -1,58 +1,47 @@
 package stockanalyzer.ctrl;
 
+import stockanalyzer.ui.UserInterface;
 import yahooApi.YahooFinance;
 import yahooApi.beans.QuoteResponse;
+import yahooApi.beans.Result;
 import yahooApi.beans.YahooResponse;
-
-import java.util.List;
+import java.util.*;
 
 public class Controller {
 
-    public void process( String ticker ) throws NullPointerException {
-
+    public void process ( String ticker )   {
         System.out.println ( "Start process" );
 
+        QuoteResponse quoteResponse = (QuoteResponse) getData ( ticker );
+
         try {
-            QuoteResponse response = (QuoteResponse) getData ( ticker );
-            long count = response.getResult ( ).size ( );
-
-            response.getResult ( ).forEach (
-                    quote -> System.out.println (
-                            System.lineSeparator ( )
-                                    + "Current BID:"
-                                    + System.lineSeparator ( )
-                                    + quote.getAsk ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
-                                    + System.lineSeparator ( )
-                                    + "Highest Price last 52 Weeks" + System.lineSeparator ( )
-                                    + quote.getFiftyTwoWeekHigh ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
-                                    + System.lineSeparator ( )
-                                    + "Average Price last 52 Weeks" + System.lineSeparator ( )
-                                    + quote.getFiftyDayAverage ( ) + " " + quote.getCurrency ( ) + System.lineSeparator ( )
-                                    + System.lineSeparator ( )
-                                    + "Number of counted Data" + System.lineSeparator ( )
-                                    + count));
-
-
-        } catch ( NullPointerException | ExceptionController e ) {
-            System.out.println ( e.getMessage ( ) );
+            System.out.println ( "Highest Ask: " + System.lineSeparator ( )
+                    + quoteResponse.getResult ( )
+                    .stream ( )
+                    .mapToDouble ( Result::getAsk )
+                    .max ( ).orElseThrow ( ( ) -> new ExceptionController ( ("We are sorry, we could not find the highest Ask Price for this choice") ) ) );
+            System.out.println ( "Average Ask: " + System.lineSeparator ( )
+                    + quoteResponse.getResult ( )
+                    .stream ( ).mapToDouble ( Result::getAsk )
+                    .average ( ).orElseThrow ( ( ) -> new ExceptionController ( "We are sorry, we could not find the average Ask Price for this choice." ) ) );
+            System.out.println ( "Data: " + System.lineSeparator ( )
+                    + quoteResponse.getResult ( )
+                    .stream ( ).mapToDouble ( Result::getAsk ).count ( ) );
+        } catch ( ExceptionController e ) {
+            UserInterface.printError ( e.getMessage () );
         }
     }
 
-    public Object getData( String searchString ) throws ExceptionController {
+    public Object getData ( String searchString )  {
 
-        List<String> searchStrings = List.of ( searchString );
-        try {
-            YahooResponse response = YahooFinance.getCurrentData ( searchStrings );
-            return response.getQuoteResponse ( );
-        } catch ( NullPointerException | ExceptionController e ) {
-            System.out.println ( "We are sorry this happened. "
-                    + YahooFinance.URL_YAHOO
-                    + "is not responding." );
-        }
-        return null;
+        List<String> tickers = Arrays.asList ( searchString.split ( "," ) );
+
+        YahooResponse response = YahooFinance.getCurrentData ( tickers );
+
+        return response.getQuoteResponse ( );
     }
 
-    public void closeConnection( ) {
+    public void closeConnection ( ) {
 
     }
 }
