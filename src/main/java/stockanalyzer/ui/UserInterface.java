@@ -8,8 +8,8 @@ import stockanalyzer.ctrl.Controller;
 
 public class UserInterface {
 
-    public static void printError(String errorMessage){
-        System.out.println(errorMessage);
+    public static void print( String e ) {
+        System.out.println( e);
     }
 
     private Controller ctrl = new Controller();

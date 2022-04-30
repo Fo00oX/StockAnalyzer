@@ -1,6 +1,6 @@
 package yahooApi;
 
-import stockanalyzer.ctrl.ExceptionController;
+import stockanalyzer.ctrl.YahooException;
 import yahooApi.beans.QuoteResponse;
 import yahooApi.beans.YahooResponse;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class YahooAPIExample {
 
-    public static void main(String[] args) throws ExceptionController {
+    public static void main(String[] args) {
 
         YahooFinance yahooFinance = new YahooFinance();
         List<String> tickers = Arrays.asList("AMZN", "TSLA", "GOOG");

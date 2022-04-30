@@ -2,6 +2,7 @@ package yahooApi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import stockanalyzer.ctrl.YahooException;
 import stockanalyzer.ui.UserInterface;
 import yahooApi.beans.Asset;
 import yahooApi.beans.YahooResponse;
@@ -27,12 +28,13 @@ public class YahooFinance {
         URL obj = null;
         try {
             obj = new URL(query);
-        } catch (MalformedURLException e) {
-            UserInterface.printError ( e.getMessage () );
+        } catch ( MalformedURLException e) {
+            UserInterface.print ( URL_YAHOO + "Is not reachable.");
         }
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
         try {
+            assert obj != null;
             con = (HttpURLConnection) obj.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -40,8 +42,9 @@ public class YahooFinance {
                 response.append(inputLine);
             }
             in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch ( IOException e) {
+            //UserInterface.printError ( new YahooException (e.getMessage ()) );
+            UserInterface.print ( URL_YAHOO + "Is not reachable.");
         }
         return response.toString();
     }
@@ -54,7 +57,7 @@ public class YahooFinance {
         return jo;
     }
 
-    public void fetchAssetName(Asset asset) {
+    public void fetchAssetName(Asset asset)   {
         YahooFinance yahoo = new YahooFinance();
         List<String> symbols = new ArrayList<>();
         symbols.add(asset.getSymbol());
@@ -74,14 +77,14 @@ public class YahooFinance {
         return returnName;
     }
 
-    public static YahooResponse getCurrentData ( List<String> tickers ) {
+    public static YahooResponse getCurrentData ( List<String> tickers )  {
         String jsonResponse = requestData(tickers);
         ObjectMapper objectMapper = new ObjectMapper();
         YahooResponse result = null;
         try {
             result  = objectMapper.readValue(jsonResponse, YahooResponse.class);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            UserInterface.print ( URL_YAHOO + "Is not reachable.");
         }
         return result;
     }
