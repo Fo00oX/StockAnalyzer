@@ -3,6 +3,7 @@ package yahooApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import stockanalyzer.ctrl.YahooException;
 import yahooApi.beans.Asset;
 import yahooApi.beans.YahooResponse;
 
@@ -20,16 +21,15 @@ public class YahooFinance {
 
     public static final String URL_YAHOO = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%s";
 
-    public String requestData(List<String> tickers) {
-        //TODO improve Error Handling
+    public String requestData(List<String> tickers) throws YahooException {
         String symbols = String.join(",", tickers);
         String query = String.format(URL_YAHOO, symbols);
         System.out.println(query);
         URL obj = null;
         try {
             obj = new URL(query);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        } catch (MalformedURLException | NullPointerException  e) {
+            System.out.println("Bad or no internet connection");
         }
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
@@ -41,8 +41,8 @@ public class YahooFinance {
                 response.append(inputLine);
             }
             in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Bad or no internet connection");
         }
         return response.toString();
     }
@@ -55,7 +55,7 @@ public class YahooFinance {
         return jo;
     }
 
-    public void fetchAssetName(Asset asset) {
+    public void fetchAssetName(Asset asset) throws YahooException {
         YahooFinance yahoo = new YahooFinance();
         List<String> symbols = new ArrayList<>();
         symbols.add(asset.getSymbol());
@@ -75,14 +75,14 @@ public class YahooFinance {
         return returnName;
     }
 
-    public YahooResponse getCurrentData(List<String> tickers) {
+    public YahooResponse getCurrentData(List<String> tickers) throws YahooException {
         String jsonResponse = requestData(tickers);
         ObjectMapper objectMapper = new ObjectMapper();
         YahooResponse result = null;
         try {
             result = objectMapper.readValue(jsonResponse, YahooResponse.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } catch (JsonProcessingException | NullPointerException e) {
+            System.out.println("Bad connection");
         }
         return result;
     }

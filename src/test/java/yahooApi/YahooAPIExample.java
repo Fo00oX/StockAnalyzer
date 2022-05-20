@@ -9,7 +9,7 @@ import java.util.List;
 
 public class YahooAPIExample {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws YahooException {
 
         YahooFinance yahooFinance = new YahooFinance();
         List<String> tickers = Arrays.asList("AMZN", "TSLA", "GOOG");
