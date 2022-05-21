@@ -29,7 +29,7 @@ public class YahooFinance {
         try {
             obj = new URL(query);
         } catch (MalformedURLException | NullPointerException  e) {
-            System.out.println("Bad or no internet connection");
+            System.out.println ("Bad or no internet connection");
         }
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
@@ -43,6 +43,7 @@ public class YahooFinance {
             in.close();
         } catch (IOException | NullPointerException e) {
             System.out.println("Bad or no internet connection");
+
         }
         return response.toString();
     }
@@ -81,8 +82,7 @@ public class YahooFinance {
         YahooResponse result = null;
         try {
             result = objectMapper.readValue(jsonResponse, YahooResponse.class);
-        } catch (JsonProcessingException | NullPointerException e) {
-            System.out.println("Bad connection");
+        } catch (JsonProcessingException | NullPointerException ignored ) {
         }
         return result;
     }

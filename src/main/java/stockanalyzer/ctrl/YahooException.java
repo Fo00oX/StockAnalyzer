@@ -15,8 +15,8 @@ public class YahooException extends Exception {
         this ( "Any Error occurred during the fetch of the data" );
     }
 
-    public String getMsg ( ) {
-        return "YException: " + getTimestamp ( ) + " " + this.getMessage ( );
+    public String getErrorMessage ( ) {
+        return getTimestamp ( ) + " " + this.getMessage ( );
     }
 
     public String getTimestamp ( ) {
@@ -25,6 +25,6 @@ public class YahooException extends Exception {
 
     @Override
     public void printStackTrace ( ) {
-        System.out.println ( this.getMsg ( ) );
+        System.out.println ( this.getErrorMessage ( ) );
     }
 }

@@ -11,11 +11,10 @@ import java.util.*;
 public class Controller {
 
     public void process ( String ticker )   {
+
         System.out.println ( "Start process" );
 
         try {
-            QuoteResponse quoteResponse = getData ( ticker );
-
             System.out.println(System.lineSeparator () +
                     "********************"
                     + System.lineSeparator () +
@@ -26,25 +25,51 @@ public class Controller {
                     "********************" +
                     System.lineSeparator ());
 
-            System.out.println ( "Highest Ask: " + System.lineSeparator ( )
-                    + quoteResponse.getResult ( )
-                    .stream ( )
-                    .mapToDouble ( Result::getAsk )
-                    .max ( )
-                    .orElseThrow ( ( ) -> new YahooException ( ("We are sorry, we could not find the highest Ask Price for this choice") ) ) );
-            System.out.println ( "Average Ask: " + System.lineSeparator ( )
-                    + quoteResponse.getResult ( )
-                    .stream ( ).mapToDouble ( Result::getAsk )
-                    .average ( ).orElseThrow ( ( ) -> new YahooException ( "We are sorry, we could not find the average Ask Price for this choice." ) ) );
-            System.out.println ( "Analysed JSON Files: " + System.lineSeparator ( )
-                    + quoteResponse.getResult ( )
-                    .stream ( ).mapToDouble ( Result::getAsk ).count ( ) );
+            getAverageAsk ( ticker );
+
+            getHighestAsk ( ticker );
+
+            getCountAnalyzedData ( ticker );
 
 
         } catch ( YahooException | NullPointerException e ) {
-            System.out.println ("We could not find a Quote" );
+            System.out.println  ("We could not find a Quote" );
         }
         new UserInterface ( );
+    }
+
+    public void getHighestAsk (String ticker) throws YahooException{
+
+        QuoteResponse quoteResponse = getData ( ticker );
+
+        assert quoteResponse != null;
+        System.out.println ( "Highest Ask: " + System.lineSeparator ( )
+                + quoteResponse.getResult ( )
+                .stream ( )
+                .mapToDouble ( Result::getAsk )
+                .max ( )
+                .orElseThrow ( ( ) -> new YahooException ( ("We are sorry, we could not find the highest Ask Price for this choice") ) ) );
+    }
+
+    public void getAverageAsk ( String ticker ) throws YahooException{
+
+        QuoteResponse quoteResponse = getData ( ticker );
+
+        assert quoteResponse != null;
+        System.out.println ( "Average Ask: " + System.lineSeparator ( )
+                + quoteResponse.getResult ( )
+                .stream ( ).mapToDouble ( Result::getAsk )
+                .average ( ).orElseThrow ( ( ) -> new YahooException ( "We are sorry, we could not find the average Ask Price for this choice." ) ) );
+    }
+
+    public void getCountAnalyzedData ( String ticker ) throws YahooException{
+
+        QuoteResponse quoteResponse = getData ( ticker );
+
+        assert quoteResponse != null;
+        System.out.println ( "Analysed JSON Files: " + System.lineSeparator ( )
+                + quoteResponse.getResult ( )
+                .stream ( ).mapToDouble ( Result::getAsk ).count ( ) );
     }
 
     public static QuoteResponse getData ( String searchString ) throws YahooException {
@@ -54,7 +79,7 @@ public class Controller {
         YahooFinance yahooFinance = new YahooFinance ( );
 
         if (yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( ) == null) {
-            System.out.println ( "We could nof find any available Data" );
+            System.out.println ( "We could nof find any available Response from YahooFinance" );
         } else
 
             return yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( );
