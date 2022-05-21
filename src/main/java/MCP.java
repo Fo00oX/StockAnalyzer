@@ -1,4 +1,3 @@
-import stockanalyzer.ctrl.YahooException;
 import stockanalyzer.ui.UserInterface;
 
 public class MCP {

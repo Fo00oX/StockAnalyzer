@@ -16,6 +16,16 @@ public class Controller {
         try {
             QuoteResponse quoteResponse = getData ( ticker );
 
+            System.out.println(System.lineSeparator () +
+                    "********************"
+                    + System.lineSeparator () +
+                    "Data for:" +
+                    System.lineSeparator () +
+                    ticker +
+                    System.lineSeparator () +
+                    "********************" +
+                    System.lineSeparator ());
+
             System.out.println ( "Highest Ask: " + System.lineSeparator ( )
                     + quoteResponse.getResult ( )
                     .stream ( )
@@ -26,9 +36,10 @@ public class Controller {
                     + quoteResponse.getResult ( )
                     .stream ( ).mapToDouble ( Result::getAsk )
                     .average ( ).orElseThrow ( ( ) -> new YahooException ( "We are sorry, we could not find the average Ask Price for this choice." ) ) );
-            System.out.println ( "Data: " + System.lineSeparator ( )
+            System.out.println ( "Analysed JSON Files: " + System.lineSeparator ( )
                     + quoteResponse.getResult ( )
                     .stream ( ).mapToDouble ( Result::getAsk ).count ( ) );
+
 
         } catch ( YahooException | NullPointerException e ) {
             System.out.println ("We could not find a Quote" );
@@ -36,15 +47,14 @@ public class Controller {
         new UserInterface ( );
     }
 
-    public QuoteResponse getData ( String searchString ) throws YahooException {
-
+    public static QuoteResponse getData ( String searchString ) throws YahooException {
 
         List<String> tickers = Arrays.asList ( searchString.split ( "," ) );
 
         YahooFinance yahooFinance = new YahooFinance ( );
 
         if (yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( ) == null) {
-            System.out.println ( "error" );
+            System.out.println ( "We could nof find any available Data" );
         } else
 
             return yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( );

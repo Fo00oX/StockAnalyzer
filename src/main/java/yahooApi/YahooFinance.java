@@ -24,8 +24,8 @@ public class YahooFinance {
     public String requestData(List<String> tickers) throws YahooException {
         String symbols = String.join(",", tickers);
         String query = String.format(URL_YAHOO, symbols);
-        System.out.println(query);
         URL obj = null;
+        //System.out.println(query);
         try {
             obj = new URL(query);
         } catch (MalformedURLException | NullPointerException  e) {
