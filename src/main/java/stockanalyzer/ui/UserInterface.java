@@ -90,7 +90,6 @@ public class UserInterface {
         System.out.println("Program finished");
     }
 
-
     protected String readLine()   {
         String value = "\0";
         BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));

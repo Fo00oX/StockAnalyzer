@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Controller {
 
-    public void process ( String ticker )   {
+    public void process ( String ticker ){
 
         System.out.println ( "Start process" );
 
@@ -88,10 +88,9 @@ public class Controller {
     }
 
     public void downloadTickers(List<String> ticker, Downloader downloader) throws YahooException {
+
         downloader.process(ticker);
     }
 
-    public void closeConnection ( ) {
-
-    }
+    public void closeConnection ( ) {    }
 }
