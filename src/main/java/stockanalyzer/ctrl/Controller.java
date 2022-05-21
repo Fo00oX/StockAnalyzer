@@ -3,6 +3,7 @@ package stockanalyzer.ctrl;
 import downloader.Downloader;
 import stockanalyzer.ui.UserInterface;
 import yahooApi.YahooFinance;
+import yahooApi.beans.Quote;
 import yahooApi.beans.QuoteResponse;
 import yahooApi.beans.Result;
 
@@ -11,8 +12,6 @@ import java.util.*;
 public class Controller {
 
     public void process ( String ticker ){
-
-
 
         System.out.println ( "Start process" );
 
@@ -35,12 +34,18 @@ public class Controller {
 
 
         } catch ( YahooException | NullPointerException e ) {
-            UserInterface.printMessage("We could not find a Quote" );
+            UserInterface.printMessage(System.lineSeparator () +
+                    "=============================================================================================================================" +
+                    System.lineSeparator () +
+                    "ERROR: No data was given for evaluation"+
+                    System.lineSeparator () +
+                    "============================================================================================================================="
+                    );
         }
         new UserInterface ( );
     }
 
-    public void getHighestAsk (String ticker) throws YahooException{
+    public void getHighestAsk (String ticker) throws YahooException {
 
         QuoteResponse quoteResponse = getData ( ticker );
 
@@ -73,7 +78,7 @@ public class Controller {
                 .stream ( ).mapToDouble ( Result::getAsk ).count ( ) );
     }
 
-    public static QuoteResponse getData ( String searchString ) throws YahooException {
+    public static QuoteResponse getData (  String searchString ) throws YahooException {
 
         List<String> tickers = Arrays.asList ( searchString.split ( "," ) );
 

@@ -20,9 +20,9 @@ import java.util.Map;
 
 public class YahooFinance {
 
-    public static final String URL_YAHOO = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%s";
+    public static String URL_YAHOO = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%s";
 
-    public String requestData(List<String> tickers) throws YahooException {
+    public String requestData(List<String> tickers)  {
         String symbols = String.join(",", tickers);
         String query = String.format(URL_YAHOO, symbols);
         URL obj = null;
@@ -45,7 +45,12 @@ public class YahooFinance {
             }
             in.close();
         } catch (IOException | NullPointerException e) {
-            UserInterface.printMessage("We could not establish a connection to your destination: " );
+            UserInterface.printMessage(System.lineSeparator () +
+                    "=============================================================================================================================" +
+                    System.lineSeparator () +
+                    "ERROR: We could not establish a connection to your destination: " + URL_YAHOO +
+                    System.lineSeparator () +
+                    "=============================================================================================================================");
         }
         return response.toString();
     }
@@ -58,7 +63,7 @@ public class YahooFinance {
         return jo;
     }
 
-    public void fetchAssetName(Asset asset) throws YahooException {
+    public void fetchAssetName(Asset asset) {
         YahooFinance yahoo = new YahooFinance();
         List<String> symbols = new ArrayList<>();
         symbols.add(asset.getSymbol());
@@ -78,13 +83,19 @@ public class YahooFinance {
         return returnName;
     }
 
-    public YahooResponse getCurrentData(List<String> tickers) throws YahooException {
+    public YahooResponse getCurrentData(List<String> tickers) {
         String jsonResponse = requestData(tickers);
         ObjectMapper objectMapper = new ObjectMapper();
         YahooResponse result = null;
         try {
             result = objectMapper.readValue(jsonResponse, YahooResponse.class);
-        } catch (JsonProcessingException | NullPointerException ignored ) {
+        } catch (JsonProcessingException | NullPointerException ignored  ) {
+            UserInterface.printMessage ( System.lineSeparator () +
+                    "=============================================================================================================================" +
+                    System.lineSeparator () +
+                    "ERROR: No Data available for " + tickers +
+                    System.lineSeparator () +
+                    "=============================================================================================================================" );
         }
         return result;
     }
