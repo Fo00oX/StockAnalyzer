@@ -31,12 +31,12 @@ public abstract class Downloader {
             writer.write(json);
             writer.close();
         } catch ( IOException | YahooException e) {
-            e.printStackTrace();
+            System.out.println ("Here is no Data for Downloader");
         } finally {
             try {
                 Objects.requireNonNull(writer).close();
             } catch (IOException e) {
-                System.out.println ("Here is no Data for Sequent Downloader");
+                System.out.println ("Here is no Data for Downloader");
             }
         }
         return fileName;

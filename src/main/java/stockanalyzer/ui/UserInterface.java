@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-import downloader.Downloader;
 import downloader.ParallelDownloader;
 import downloader.SequentialDownloader;
 import stockanalyzer.ctrl.Controller;
@@ -28,15 +27,17 @@ public class UserInterface {
     public void getDataFromCtrl3() {
 
         ctrl.process ( "GOOG" );
-
     }
 
-    private void getDownloadData() {
+    private void getDataFomDownloader () {
 
-        long startTime, endTime, runTime;
+        long startTime = 0;
+        long endTime = 0;
+        long runTimeSequential = 0;
+        long runTimeParallel = 0;
 
-        Downloader sequentialDownloader = new SequentialDownloader();
-        Downloader parallelDownloader = new ParallelDownloader();
+        SequentialDownloader sequentialDownloader = new SequentialDownloader();
+        ParallelDownloader parallelDownloader = new ParallelDownloader();
 
         List<String> tickers = Arrays.asList("FB","TSLA","MSFT","NFLX","NOK","GOOG","GME","AAPL","BTC-USD","DOGE-USD","ETH-USD",
                 "OMV.VI","EBS.VI","DOC.VI","SBO.VI","RBI.VI","VOE.VI","FACC.VI","ANDR.VI","VER.VI","WIE.VI","CAI.VI","BG.VI",
@@ -44,27 +45,30 @@ public class UserInterface {
 
         try{
 
+            System.out.println("========== Sequential Download Start ========== ");
             startTime = System.currentTimeMillis();
-            ctrl.downloadTickers(tickers,sequentialDownloader);
+            ctrl.downloadTickers(tickers, sequentialDownloader);
 
             endTime = System.currentTimeMillis();
-            runTime = endTime-startTime;
+            runTimeSequential = endTime - startTime;
+            System.out.println("========== Sequential Download End ========== ");
 
-            System.out.print ("Sequential Download needed: " + runTime + " ms\n" );
-
+            System.out.println("========== Parallel Download Start ========== ");
             startTime = System.currentTimeMillis();
             ctrl.downloadTickers(tickers, parallelDownloader);
 
             endTime = System.currentTimeMillis();
-            runTime = endTime-startTime;
-
-            System.out.print ("Parallel Download needed: " + runTime + " ms\n" );
+            runTimeParallel = endTime - startTime;
+            System.out.println("========== Parallel Download End ========== ");
 
         }
         catch(YahooException e){
             System.out.println("Here is no Internet connection.");
         }
 
+        System.out.println ("\n" + "Parallel Download needed: " + runTimeParallel + " ms" );
+        System.out.println ("Sequential Download needed: " + runTimeSequential + " ms" );
+        System.out.println ("\n" + "The difference between the Download Processes is: " + Math.abs ( runTimeParallel - runTimeSequential ) + " ms");
 
     }
 
@@ -76,7 +80,7 @@ public class UserInterface {
         menu.insert ( "b" , "Data from 20 sources" , this::getDataFromCtrl2 );
         menu.insert ( "c" , "GOOG" , this::getDataFromCtrl3 );
         menu.insert ( "q" , "Quit" , null );
-        menu.insert("d","Download", this::getDownloadData);
+        menu.insert("d","Download", this::getDataFomDownloader );
         Runnable choice;
 
         while ((choice = menu.exec()) != null)
