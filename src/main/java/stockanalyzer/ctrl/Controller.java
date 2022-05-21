@@ -12,6 +12,8 @@ public class Controller {
 
     public void process ( String ticker ){
 
+
+
         System.out.println ( "Start process" );
 
         try {
@@ -33,7 +35,7 @@ public class Controller {
 
 
         } catch ( YahooException | NullPointerException e ) {
-            System.out.println  ("We could not find a Quote" );
+            UserInterface.printMessage("We could not find a Quote" );
         }
         new UserInterface ( );
     }
@@ -47,8 +49,7 @@ public class Controller {
                 + quoteResponse.getResult ( )
                 .stream ( )
                 .mapToDouble ( Result::getAsk )
-                .max ( )
-                .orElseThrow ( ( ) -> new YahooException ( ("We are sorry, we could not find the highest Ask Price for this choice") ) ) );
+                .max ( ).orElseThrow ( ( ) -> new YahooException ( ("We are sorry, we could not find the highest Ask Price for this choice") ) ) );
     }
 
     public void getAverageAsk ( String ticker ) throws YahooException{
@@ -79,7 +80,7 @@ public class Controller {
         YahooFinance yahooFinance = new YahooFinance ( );
 
         if (yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( ) == null) {
-            System.out.println ( "We could nof find any available Response from YahooFinance" );
+            UserInterface.printMessage ( "We could nof find any available Response from YahooFinance" );
         } else
 
             return yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( );

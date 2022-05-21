@@ -15,6 +15,10 @@ public class UserInterface {
 
     private Controller ctrl = new Controller();
 
+    public static void printMessage ( String errorMessage ) {
+        System.out.println (errorMessage );
+    }
+
     public void getDataFromCtrl1()   {
         ctrl.process ( "AAPL,TSLA,GOOG" );
     }

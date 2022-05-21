@@ -1,6 +1,7 @@
 package downloader;
 
 import stockanalyzer.ctrl.YahooException;
+import stockanalyzer.ui.UserInterface;
 import yahooApi.YahooFinance;
 
 import java.io.*;
@@ -31,12 +32,12 @@ public abstract class Downloader {
             writer.write(json);
             writer.close();
         } catch ( IOException | YahooException e) {
-            System.out.println ("Here is no Data for Downloader");
+            UserInterface.printMessage ("Here is no Data for Downloader");
         } finally {
             try {
                 Objects.requireNonNull(writer).close();
             } catch (IOException e) {
-                System.out.println ("Here is no Data for Downloader");
+                UserInterface.printMessage ("Here is no Data for Downloader");
             }
         }
         return fileName;

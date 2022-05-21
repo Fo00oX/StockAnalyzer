@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stockanalyzer.ctrl.YahooException;
+import stockanalyzer.ui.UserInterface;
 import yahooApi.beans.Asset;
 import yahooApi.beans.YahooResponse;
 
@@ -29,11 +30,13 @@ public class YahooFinance {
         try {
             obj = new URL(query);
         } catch (MalformedURLException | NullPointerException  e) {
-            System.out.println ("Bad or no internet connection");
+            UserInterface.printMessage ("The Destination can not be Null");
+            new  UserInterface();
         }
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
         try {
+            assert obj != null;
             con = (HttpURLConnection) obj.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -42,8 +45,7 @@ public class YahooFinance {
             }
             in.close();
         } catch (IOException | NullPointerException e) {
-            System.out.println("Bad or no internet connection");
-
+            UserInterface.printMessage("We could not establish a connection to your destination: " );
         }
         return response.toString();
     }

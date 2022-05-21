@@ -1,5 +1,7 @@
 package downloader;
 
+import stockanalyzer.ui.UserInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -29,7 +31,7 @@ public class ParallelDownloader extends Downloader {
                 }
 
             } catch ( InterruptedException | ExecutionException e) {
-                System.out.println ("here is no Data available for Parallel downloader." );
+                UserInterface.printMessage("here is no Data available for Parallel downloader." );
             }
         }
         return savedTickers;
