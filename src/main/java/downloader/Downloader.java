@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Downloader {
 
@@ -20,7 +19,7 @@ public abstract class Downloader {
     public String saveJson2File(String ticker) {
 
         String fileName = "";
-        BufferedWriter writer= null;
+        BufferedWriter writer = null;
 
         try {
             YahooFinance yahooFinance = new YahooFinance();
@@ -31,14 +30,11 @@ public abstract class Downloader {
             writer = new BufferedWriter(new FileWriter(fileName));
             writer.write(json);
             writer.close();
-        } catch ( IOException e) {
+        } catch ( IOException | NullPointerException e) {
             UserInterface.printMessage ("Here is no Data for Downloader");
-        } finally {
-            try {
-                Objects.requireNonNull(writer).close();
-            } catch (IOException e) {
-                UserInterface.printMessage ("Here is no Data for Downloader");
-            }
+            UserInterface ui = new UserInterface();
+            ui.start();
+
         }
         return fileName;
     }

@@ -1,5 +1,6 @@
 package stockanalyzer.ctrl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import downloader.Downloader;
 import stockanalyzer.ui.UserInterface;
 import yahooApi.YahooFinance;
@@ -40,6 +41,8 @@ public class Controller {
                     System.lineSeparator () +
                     "============================================================================================================================="
                     );
+            UserInterface ui = new UserInterface();
+            ui.start();
         }
         new UserInterface ( );
     }
@@ -92,7 +95,7 @@ public class Controller {
         return null;
     }
 
-    public void downloadTickers(List<String> ticker, Downloader downloader) throws YahooException {
+    public void downloadTickers(List<String> ticker, Downloader downloader) throws YahooException, JsonProcessingException {
 
         downloader.process(ticker);
     }

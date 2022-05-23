@@ -11,7 +11,7 @@ public class ParallelDownloader extends Downloader {
     @Override
     public int process(List<String> ticker)   {
 
-        int savedTickers = 0;
+        int count = 0;
         int threads = Runtime.getRuntime().availableProcessors();
 
         ExecutorService executorService = Executors.newFixedThreadPool(threads);
@@ -20,6 +20,7 @@ public class ParallelDownloader extends Downloader {
 
         for(String tickers: ticker){
             parallelDownload.add(executorService.submit(()->saveJson2File(tickers)));
+
         }
 
         for(Future<String> futures : parallelDownload){
@@ -27,13 +28,17 @@ public class ParallelDownloader extends Downloader {
                 String tickers = futures.get();
 
                 if(tickers != null){
-                    savedTickers++;
+                    count++;
                 }
-
-            } catch ( InterruptedException | ExecutionException e) {
-                UserInterface.printMessage("here is no Data available for Parallel downloader." );
+            } catch ( InterruptedException | ExecutionException  e) {
+                UserInterface.printMessage( System.lineSeparator () +
+                        "=============================================================================================================================" +
+                        System.lineSeparator () +
+                        "Here is no Data available for Parallel downloader."+
+                        System.lineSeparator () +
+                        "=============================================================================================================================");
             }
         }
-        return savedTickers;
+        return count;
     }
 }

@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class YahooFinance {
 
-    public static String URL_YAHOO = "";
+    public static String URL_YAHOO = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%s";
 
     public String requestData(List<String> tickers)  {
         String symbols = String.join(",", tickers);
@@ -29,14 +29,15 @@ public class YahooFinance {
         //System.out.println(query);
         try {
             obj = new URL(query);
-        } catch (MalformedURLException | NullPointerException  e) {
+        } catch (MalformedURLException e) {
             UserInterface.printMessage (System.lineSeparator () +
                     "=============================================================================================================================" +
                     System.lineSeparator () +
                     "ERROR: The Destination can not be Null"+
                     System.lineSeparator () +
                     "=============================================================================================================================");
-            new  UserInterface();
+            UserInterface ui = new UserInterface();
+            ui.start();
         }
         HttpURLConnection con = null;
         StringBuilder response = new StringBuilder();
@@ -56,6 +57,8 @@ public class YahooFinance {
                     "ERROR: We could not establish a connection to your destination: " + URL_YAHOO +
                     System.lineSeparator () +
                     "=============================================================================================================================");
+            UserInterface ui = new UserInterface();
+            ui.start();
         }
         return response.toString();
     }
@@ -101,6 +104,8 @@ public class YahooFinance {
                     "ERROR: No Data available for " + tickers +
                     System.lineSeparator () +
                     "=============================================================================================================================" );
+            UserInterface ui = new UserInterface();
+            ui.start();
         }
         return result;
     }

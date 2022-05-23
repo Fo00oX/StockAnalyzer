@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import downloader.ParallelDownloader;
 import downloader.SequentialDownloader;
 import stockanalyzer.ctrl.Controller;
@@ -66,8 +67,8 @@ public class UserInterface {
             System.out.println("========== Parallel Download End ========== ");
 
         }
-        catch(YahooException e){
-            System.out.println("Here is no Internet connection.");
+        catch( YahooException | JsonProcessingException e){
+            System.out.println("We are sorry here is no Connection to the Downloader.");
         }
 
         System.out.println ("\n" + "Parallel Download needed: " + runTimeParallel + " ms" );
