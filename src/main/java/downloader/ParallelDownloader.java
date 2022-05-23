@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 public class ParallelDownloader extends Downloader {
 
     @Override
-    public int process(List<String> ticker) {
+    public int process(List<String> ticker)   {
 
         int savedTickers = 0;
         int threads = Runtime.getRuntime().availableProcessors();

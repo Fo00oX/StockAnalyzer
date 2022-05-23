@@ -15,7 +15,7 @@ public abstract class Downloader {
     public static final String DIRECTORY_DOWNLOAD = "./download/";
     private static final String JSON_EXTENSION = ".json";
 
-    public abstract int process(List<String> urls) ;
+    public abstract int process(List<String> urls) throws YahooException;
 
     public String saveJson2File(String ticker) {
 

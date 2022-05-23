@@ -3,7 +3,6 @@ package stockanalyzer.ctrl;
 import downloader.Downloader;
 import stockanalyzer.ui.UserInterface;
 import yahooApi.YahooFinance;
-import yahooApi.beans.Quote;
 import yahooApi.beans.QuoteResponse;
 import yahooApi.beans.Result;
 
@@ -85,7 +84,7 @@ public class Controller {
         YahooFinance yahooFinance = new YahooFinance ( );
 
         if (yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( ) == null) {
-            UserInterface.printMessage ( "We could nof find any available Response from YahooFinance" );
+            UserInterface.printMessage ( "We could nof find any Response from YahooFinance" );
         } else
 
             return yahooFinance.getCurrentData ( tickers ).getQuoteResponse ( );

@@ -1,6 +1,5 @@
 package yahooApi;
 
-import stockanalyzer.ctrl.YahooException;
 import yahooApi.beans.QuoteResponse;
 import yahooApi.beans.YahooResponse;
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class YahooAPIExample {
 
-    public static void main(String[] args) throws YahooException {
+    public static void main(String[] args){
 
         YahooFinance yahooFinance = new YahooFinance();
         List<String> tickers = Arrays.asList("AMZN", "TSLA", "GOOG");
@@ -23,7 +22,5 @@ public class YahooAPIExample {
                 "WIE.VI","CAI.VI","BG.VI","POST.VI","LNZ.VI","UQA.VI","SPI.VI","ATS.VI","IIA.VI"));
         QuoteResponse quotes2 = response2.getQuoteResponse();
         quotes2.getResult().stream().forEach(quote -> System.out.println(quote.getShortName()+";"+quote.getAsk()+";"+quote.getBid()+" "+quote.getRegularMarketPreviousClose()));
-
-
     }
 }
